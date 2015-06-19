@@ -142,7 +142,7 @@ class BugController extends Controller
         
         if (empty($bug))
         {
-            
+            abort(500);
         }
         else
         {
