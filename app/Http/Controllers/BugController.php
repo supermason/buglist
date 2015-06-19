@@ -78,7 +78,7 @@ class BugController extends Controller
         
         $bug = new Bug();
         $bug->title = Input::get('bugTitle');
-        $bug->bug_img = Input::get('imgEditor');
+        $bug->bug_img = Input::get('bugImg');
         $bug->content = trim(Input::get('bugContent'));
         $bug->presenter_id = Auth::user()->id;
         $bug->solver_id = Input::get('bugSolver');

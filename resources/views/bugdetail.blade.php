@@ -22,7 +22,7 @@
         <div class="panel-body">
             <fieldset {{ App\UI\BugsHelper::needDisabled($data['bug']) }}>
                 <form class="form-horizontal" method="POST" action="{{ App\UI\BugsHelper::createActionURL($data['bug'])}}" >
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="form-group">
                         <label for="bugTitle" class="col-sm-2 control-label">标题：</label>
                         <div class=" col-sm-10">
@@ -35,16 +35,8 @@
                         <label for="bugImg" class="col-sm-2 control-label">bug截图：</label>
                         <div class=" col-sm-10">
                             @if (App\UI\BugsHelper::isAddPage())
-                            <div id="imgEditor"></div>
-                            <script type="text/javascript">
-                                $(document).ready(function(){
-                                    $.getScript("/js/bootstrap-wysiwyg.js?" + ((new Date()).getMilliseconds())).done(function(){
-                                        $('#imgEditor').wysiwyg();
-                                    }).fail(function(){
-                                        alert('bootstrap-wysiwyg.js 加载失败！');
-                                    });
-                                });
-                            </script>
+                            <textarea class="form-control" id="bugImg" name="bugImg" placeholder="请将富文本编辑器中的图片64位编码数据粘贴至此" rows='10'></textarea>
+                            <a class="btn btn-default top-gap" href="{{ URL('/richeditor') }}" target="_blank">打开富文本编辑器</a>                         
                             @else
                             <img src="{{$data['bug']->bug_img}}"/>
                             @endif
@@ -110,7 +102,7 @@
                         <label for="bugSolver" class="col-sm-2 control-label">解决人：</label>
                         <div class=" col-sm-10">
                             <select class="form-control" name="bugSolver">
-                                {!! App\UI\GeneralBeautifier::fillSelect($data['solvers'], App\UI\BugsHelper::getBugId($data['bug'])) !!}
+                                {!! App\UI\GeneralBeautifier::fillSelect($data['solvers'], App\UI\BugsHelper::fillForm($data['bug'], 'solver_id')) !!}
                             </select>
                         </div>
                     </div>
@@ -138,5 +130,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function doPaste()
+    {
+        $('#bugImg').val(window.clipboardData.getData('imgStr'));
+    }
+</script>
 
 @endsection

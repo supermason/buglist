@@ -27,6 +27,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/all', 'BugController@all');
     
     Route::get('/success', 'SuccessController@index');
+    
+    Route::get('/richeditor', function(){
+        return view('wysiwyg');
+    });
 });
 
 Route::controllers([

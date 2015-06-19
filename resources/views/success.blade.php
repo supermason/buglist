@@ -16,7 +16,8 @@
             @if ($data['back'] != '')
             <a href="{{$data['back']}}" class="btn btn-default">继续添加</a>
             @endif
-            <a href="{{$data['to']}}" class="btn btn-default">查看全部bug</a>
+            <a href="{{ URL('/') }}" class="btn btn-default">查看我的</a>
+            <a href="{{$data['to']}}" class="btn btn-default">查看全部</a>
         </div>
     </div>
 </div>

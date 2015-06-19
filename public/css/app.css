@@ -6413,7 +6413,24 @@ label,
   padding: 5px;
   margin: 0px 5px;
 }
-#imgEditor {
+.shortCut {
+  margin-top: 20px;
+  padding: 10px 10px;
+  border-color: #dddddd;
+  border-style: solid;
+  border-width: 1px;
+  -moz-border-radius: 4px;
+  /* Gecko browsers */
+  -webkit-border-radius: 4px;
+  /* Webkit browsers */
+  border-radius: 4px;
+  /* W3C syntax */
+}
+.shortCut button {
+  margin: 10px;
+  float: right;
+}
+#editor {
   display: block;
   width: 100%;
   height: 34px;
@@ -6434,31 +6451,37 @@ label,
   overflow: scroll;
   max-height: 600px;
 }
-#imgEditor:focus {
+#editor:focus {
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
-#imgEditor::-moz-placeholder {
+#editor::-moz-placeholder {
   color: #999999;
   opacity: 1;
 }
-#imgEditor:-ms-input-placeholder {
+#editor:-ms-input-placeholder {
   color: #999999;
 }
-#imgEditor::-webkit-input-placeholder {
+#editor::-webkit-input-placeholder {
   color: #999999;
 }
-#imgEditor[disabled],
-#imgEditor[readonly],
-fieldset[disabled] #imgEditor {
+#editor[disabled],
+#editor[readonly],
+fieldset[disabled] #editor {
   cursor: not-allowed;
   background-color: #eeeeee;
   opacity: 1;
 }
-textarea#imgEditor {
+textarea#editor {
   height: auto;
+}
+.top-gap {
+  margin-top: 10px;
+}
+.hero-unit {
+  padding: 10px 60px 60px;
 }
 .table > thead > tr > td.dark,
 .table > tbody > tr > td.dark,

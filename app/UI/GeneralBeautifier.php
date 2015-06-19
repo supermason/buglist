@@ -39,7 +39,7 @@ class GeneralBeautifier {
      */
     public static function decoratePriority($priority)
     {
-        return '<span class="' . ($priority == 0 ? 'normal' : 'emergent') . '">[' . ($priority == 0 ? '紧急' : '一般') . ']</span>';
+        return '<span class="' . ($priority == 0 ? 'emergent' : 'normal') . '">[' . ($priority == 0 ? '紧急' : '一般') . ']</span>';
     }
     
     /**
