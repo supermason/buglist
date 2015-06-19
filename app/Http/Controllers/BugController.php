@@ -250,13 +250,13 @@ class BugController extends Controller
     }
     
     /**
-     * 对bug按照status 降序排列
+     * 对bug按照status | priority | created_at 排列
      * @param model $query
      * @return model
      */
     private function defaultOrder($query)
     {
-        return $query->orderBy('priority', 'asc')->orderBy('status', 'asc')->orderBy('created_at', 'desc');
+        return $query->orderBy('status', 'asc')->orderBy('priority', 'asc')->orderBy('created_at', 'desc');
     }
     
     /**
@@ -271,14 +271,14 @@ class BugController extends Controller
         
         if ($status == -1) // 查询全部
         {
-            $query = $this->defaultOrder($this->createQueryObj()->where('solver_id', '=', $id));
+            $query = $this->createQueryObj()->where('solver_id', '=', $id);
         } 
         else // 根据状态查询
         {
-            $query = $this->defaultOrder($this->createQueryObj()->whereRaw('solver_id = ? and status = ?', [$id, $status]));
+            $query = $this->createQueryObj()->whereRaw('solver_id = ? and status = ?', [$id, $status]);
         }
         
-        return $query ->paginate($pageSize);
+        return $this->defaultOrder($query) ->paginate($pageSize);
     }
     
     /**
