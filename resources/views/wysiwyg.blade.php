@@ -76,7 +76,9 @@
     <div class="shortCut">
         <div class="form-group">
             <textarea class="form-control" rows="5" id="imgBase64Str"></textarea>
-            <button class="btn btn-default" onclick="getImgBase64Str();">获取图片64位编码字符串</button>
+            <button class="btn btn-danger" id="clear">清空</button>
+            <button class="btn btn-success" id="copyToClipboard">拷贝到剪切板</button>
+            <button class="btn btn-warning" id='getBase64ImgStr'>获取图片64位编码字符串</button>
             
         </div>
         
@@ -88,6 +90,7 @@
 <script src="/js/jquery.hotkeys.js"></script>
 <script src="/js/bootstrap.3.3.4.min.js"></script>
 <script src="/js/bootstrap-wysiwyg.js"></script>
+<script src="/js/zclip/jquery.zclip.min.js"></script>
 
 <script>
   $(function(){
@@ -123,19 +126,34 @@
 </script>
 
 <script>
-    function getImgBase64Str()
-    {
-        var img = $('#editor').find('img');
-        if (img.length > 0)
-        {
-            $('#imgBase64Str').val(img.attr('src'));
-        }
-        else
-        {
+
+    $(document).ready(function(){
+        
+        $('#copyToClipboard').zclip({ 
+            path: 'js/zclip/ZeroClipboard.swf', 
+            copy: $('#imgBase64Str').val() 
+        });
+                
+        $('#getBase64ImgStr').click(function(){
+            var img = $('#editor').find('img');
+            if (img.length > 0)
+            {
+                $('#imgBase64Str').val(img.attr('src'));
+            }
+            else
+            {
+                $('#imgBase64Str').val('');
+                alert('请黏贴一张图片到富文本框内！');
+            }
+        });
+        
+        $('#clear').click(function(){
+            $('#editor').cleanHtml();
             $('#imgBase64Str').val('');
-            alert('请黏贴一张图片到富文本框内！');
-        }
-    }
+        });
+        
+    });
+    
 </script>
 </body>
 </html>
