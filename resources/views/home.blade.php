@@ -10,7 +10,7 @@
     </div>
     @else
     <form class="form-inline search-form" onsubmit="return false;">
-        <div class="form-group bordered-group">
+        <div class="form-group bordered-group hidden">
             <label for="bugTitle">标题：</label>
             <input type="text" class="form-control" id="bugTitle" placeholder="标题模糊查询">
         </div>
