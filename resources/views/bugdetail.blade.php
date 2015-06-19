@@ -126,7 +126,7 @@
                     </div>
                 </form>  
             </fieldset>
-            <a class="btn btn-primary" href="javascript:history.go(-1);" style="float: right;">返回&nbsp;<span class="glyphicon glyphicon-backward"></span></a>
+            <a class="btn btn-default" href="javascript:history.go(-1);" style="float: right;">返回&nbsp;<span class="glyphicon glyphicon-backward"></span></a>
         </div>
     </div>
 </div>

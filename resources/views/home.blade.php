@@ -42,7 +42,7 @@
 
     {!! $data['bugs']->render() !!}
     
-    <table class="table table-responsive table-hover table-striped">
+    <table class="table table-responsive table-hover table-striped table-responsive">
         <thead>
             <tr>
                 <td>编号</td>
