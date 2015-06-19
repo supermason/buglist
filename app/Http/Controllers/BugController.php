@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Bug;
 use App\User;
 
+use App\Constants\BugStatus;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -25,6 +27,27 @@ class BugController extends Controller
         return view('home')->withData([
             'bugs' => $this->queryBySolverId(\Illuminate\Support\Facades\Auth::user()->id),
             'solvers' => User::all(),
+            'query' => [
+                'id' => Auth::user()->id,
+                'status' => 0,
+            ],
+        ]);
+    }
+    
+    /**
+     * 返回全部bug
+     * 
+     * @return Response
+     */
+    public function all()
+    {
+        return view('home')->withData([
+            'bugs' => $this->defaultOrder($this->createQueryObj())->paginate(20),
+            'solvers' => User::all(),
+            'query' => [
+                'id' => 0,
+                'status' => 0,
+            ],
         ]);
     }
 
@@ -56,17 +79,22 @@ class BugController extends Controller
         $bug = new Bug();
         $bug->title = Input::get('bugTitle');
         $bug->bug_img = Input::get('imgEditor');
-        $bug->content = Input::get('bugContent');
+        $bug->content = trim(Input::get('bugContent'));
         $bug->presenter_id = Auth::user()->id;
-        $bug->solver_id = 1; //Input::get('bugSolver');
+        $bug->solver_id = Input::get('bugSolver');
+        $bug->status = Input::get('bugStatus');
         $bug->priority = Input::get('bugPriority');
         $bug->model = Input::get('bugModel');
         $bug->error_code = Input::get('bugErrorCode');
-        $bug->solution = Input::get('bugSolution');
+        $bug->solution = trim(Input::get('bugSolution'));
         
         if ($bug->save())
         {
-            return Redirect::to('/');
+            return redirect('/success')->withMessage([
+                'info' => 'Bug[' . Input::get('bugTitle')  . ']添加成功！',
+                'to' => '/all',
+                'back' => '/create',
+            ]);
         }
         else
         {
@@ -112,6 +140,38 @@ class BugController extends Controller
     {
         $bug = Bug::find($id);
         
+        if (empty($bug))
+        {
+            
+        }
+        else
+        {
+            $bug->title = Input::get('bugTitle');
+            $bug->content = trim(Input::get('bugContent'));
+            $bug->status = Input::get('bugStatus');
+            if ($bug->status == BugStatus::OK)
+            {
+                $bug->solved_at = date('Y-m-d H:i:s');
+            }
+            $bug->solver_id = Input::get('bugSolver');
+            $bug->priority = Input::get('bugPriority');
+            $bug->model = Input::get('bugModel');
+            $bug->error_code = Input::get('bugErrorCode');
+            $bug->solution = trim(Input::get('bugSolution'));
+            
+            if ($bug->push())
+            {
+                return redirect('/success')->withMessage([
+                    'info' => 'Bug[' . Input::get('bugTitle')  . ']修改成功！',
+                    'to' => '/all',
+                    'back' => '',
+                ]);
+            }
+            else
+            {
+                return Redirect::back()->withInput()->withErrors('修改失败失败！');
+            }
+        }
     }
 
     /**
@@ -127,21 +187,45 @@ class BugController extends Controller
     
     /**
      * 根据条件进行查询
-     * @param string $query
+     * @param int $id
+     * @param int $status 
      */
-    public function search($query=null)
+    public function search($id, $status)
     {
-        if ($query == null)
+        $whereCluase = '';
+        $condition = [];
+        
+        if ($id != 0 && $status != 0) 
         {
-            return view('home')->withData([
-                'bugs' => $this->defaultOrder($this->createQueryObj())->paginate(20),
-                'solvers' => User::all(),
-            ]);
+            $whereCluase = 'solver_id = ? and status = ?';
+            $condition = [$id, $status];
+        }
+        else if ($id == 0 && $status == 0)
+        {
+            return $this->all();
         }
         else
         {
-            
+            if ($id != 0)
+            {
+                $whereCluase = 'solver_id = ?';
+                $condition = [$id];
+            }
+            else
+            {
+                $whereCluase = 'status = ?';
+                $condition = [$status];
+            }
         }
+        
+        return view('home')->withData([
+            'bugs' => $this->defaultOrder($this->createQueryObj()->whereRaw($whereCluase, $condition))->paginate(20),
+            'solvers' => User::all(),
+            'query' => [
+                'id' => $id,
+                'status' => $status,
+            ],
+        ]);
     }
     
     /*
@@ -172,7 +256,7 @@ class BugController extends Controller
      */
     private function defaultOrder($query)
     {
-        return $query->orderBy('status', 'asc')->orderBy('created_at', 'desc');
+        return $query->orderBy('priority', 'asc')->orderBy('status', 'asc')->orderBy('created_at', 'desc');
     }
     
     /**

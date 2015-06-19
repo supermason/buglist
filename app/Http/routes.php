@@ -19,7 +19,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/show/{id}', 'BugController@show')->where('id', '[0-9]+'); // 查看 一条bug
     Route::get('/edit/{id}', 'BugController@edit')->where('id', '[0-9]+'); // 跳转到 修改界面
     Route::post('/update/{id}', 'BugController@update')->where('id', '[0-9]+'); // 修改一条bug信息 
-    Route::get('/search/{query?}', 'BugController@search'); // 根据条件查询bug，无条件则返回全部bug
+    Route::get('/search/{id}/{status}', 'BugController@search')
+            ->where([
+                'id' => '[0-9]+',
+                'status' => '[0-9]+'
+            ]); // 根据条件查询bug，无条件则返回全部bug
+    Route::get('/all', 'BugController@all');
+    
+    Route::get('/success', 'SuccessController@index');
 });
 
 Route::controllers([

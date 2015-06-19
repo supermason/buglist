@@ -54,18 +54,16 @@
                         <label for="bugContent" class="col-sm-2 control-label">文字内容：</label>
                         <div class=" col-sm-10">
                             <textarea class="form-control" name="bugContent" placeholder="请将bug的描述信息填写在此处" rows="10" required="required"
-                                      {!! App\UI\BugsHelper::canEdit($data['bug']) !!}>
-                                {{ App\UI\BugsHelper::fillForm($data['bug'], 'content') }}
-                            </textarea>
+                                      {!! App\UI\BugsHelper::canEdit($data['bug']) !!}>{{ App\UI\BugsHelper::fillForm($data['bug'], 'content') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group {!! App\UI\BugsHelper::needHideForAdd() !!}">
                         <label for="bugStatus" class="col-sm-2 control-label">状态：</label>
                         <div class=" col-sm-10">
                             <select class="form-control" name="bugStatus">
-                                <option value="0" {!! App\UI\BugsHelper::checkSelection($data['bug'], 'status', 0, 0) !!}>Pending</option>
-                                <option value="1" {!! App\UI\BugsHelper::checkSelection($data['bug'], 'status', 1, 1) !!}>Stand By</option>
-                                <option value="2" {!! App\UI\BugsHelper::checkSelection($data['bug'], 'status', 2, 2) !!}>OK</option>
+                                <option value="{{App\Constants\BugStatus::PENDING}}" {!! App\UI\BugsHelper::checkSelection($data['bug'], 'status', 1, 0) !!}>Pending</option>
+                                <option value="{{App\Constants\BugStatus::STANDBY}}" {!! App\UI\BugsHelper::checkSelection($data['bug'], 'status', 2, 1) !!}>Stand By</option>
+                                <option value="{{App\Constants\BugStatus::OK}}" {!! App\UI\BugsHelper::checkSelection($data['bug'], 'status', 3, 2) !!}>OK</option>
                             </select>
                         </div>
                     </div>
@@ -119,9 +117,7 @@
                     <div class="form-group">
                         <label for="bugSolution" class="col-sm-2 control-label">解决方案：</label>
                         <div class=" col-sm-10">
-                            <textarea class="form-control" name="bugSolution" placeholder="请将解决方案填写在此处" rows="10">
-                                {{ App\UI\BugsHelper::fillForm($data['bug'], 'solution') }}
-                            </textarea>
+                            <textarea class="form-control" name="bugSolution" placeholder="请将解决方案填写在此处" rows="10">{{ App\UI\BugsHelper::fillForm($data['bug'], 'solution') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group {!! App\UI\BugsHelper::needHideForAdd() !!}">
@@ -138,7 +134,7 @@
                     </div>
                 </form>  
             </fieldset>
-            <a class="btn btn-primary" href="{{URL('/search')}}" style="float: right;">返回&nbsp;<span class="glyphicon glyphicon-backward"></span></a>
+            <a class="btn btn-primary" href="javascript:history.go(-1)" style="float: right;">返回&nbsp;<span class="glyphicon glyphicon-backward"></span></a>
         </div>
     </div>
 </div>

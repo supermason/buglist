@@ -6,7 +6,7 @@
     <div class="alert alert-info">
         当前没有需要您解决的bug！您可以
         <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug</a>&nbsp;或
-        <a href="{{ URL('/search')}}" class="btn btn-danger">查看全部Bug</a>
+        <a href="{{ URL('/all')}}" class="btn btn-danger">查看全部Bug</a>
     </div>
     @else
     <form class="form-inline search-form" onsubmit="return false;">
@@ -18,24 +18,24 @@
             <div class="form-group">
                 <label for="bugStatus">状态：</label>
                 <select class="form-control" id="statusSelect">
-                    <option value="-1">--</option>
-                    <option value="0" selected="selected">Pending</option>
-                    <option value="1">Stand By</option>
-                    <option value="2">OK</option>
+                    <option value="0" {!! App\UI\GeneralBeautifier::checkSelection(0, $data['query']['status']) !!}}>--</option>
+                    <option value="1" {!! App\UI\GeneralBeautifier::checkSelection(1, $data['query']['status']) !!}}>Pending</option>
+                    <option value="2" {!! App\UI\GeneralBeautifier::checkSelection(2, $data['query']['status']) !!}}>Stand By</option>
+                    <option value="3" {!! App\UI\GeneralBeautifier::checkSelection(3, $data['query']['status']) !!}}>OK</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="bugSolver">解决人：</label>
-                <select class="form-control" id="solverSelect" >
-                    <option value="-1">--</option>
-                    {!! App\UI\GeneralBeautifier::fillSelect($data['solvers'], -1) !!}
+                <select class="form-control" id="bugSolver" >
+                    <option value="0" selected="selected">--</option>
+                    {!! App\UI\GeneralBeautifier::fillSelect($data['solvers'], $data['query']['id']) !!}
                 </select>
             </div>
-            <button type="button" class="btn btn-primary btn-sm" onclick="" >查询&nbsp;&nbsp;<span class="glyphicon glyphicon-search"></span></button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="searchBuyByOption();" >查询&nbsp;&nbsp;<span class="glyphicon glyphicon-search"></span></button>
         </div>
         <div class="form-group bordered-group">
-            <a class="btn btn-primary" href="{{URL('/search')}}">查看全部&nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt"></span></a>
-            <a class="btn btn-primary" href="{{URL('/')}}">查看我的&nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></a>
+            <a class="btn btn-primary" href="{{URL('/all')}}">全部bug&nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt"></span></a>
+            <a class="btn btn-primary" href="{{URL('/')}}">需要我解决的&nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></a>
             <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </form>
@@ -63,20 +63,20 @@
         <tbody>
         @foreach ($data['bugs'] as $bug)
         <tr class="{{ App\UI\GeneralBeautifier::setTrColorByBugStatus($bug) }}">
-                <td>{{ $bug->id }}</td>
-                <td>{{ App\UI\GeneralBeautifier::mapStatusToString($bug->status) }}</td>
-                <td>{{ $bug->title }}</td>
-                <td>{{ App\UI\GeneralBeautifier::truncateContent($bug->content, 30) }}</td>
-                <td>{{ $bug->created_at }}</td>
-                <td>{{ $bug->presenter }}</td>
-                <td>{{ $bug->solved_at }}</td>
-                <td>{{ App\UI\GeneralBeautifier::truncateContent($bug->solution, 30) }}</td>
-                <td>{{ $bug->solver }}</td>
-                <td>{!! App\UI\GeneralBeautifier::decoratePriority($bug->priority) !!}</td>
-                <td>{{ $bug->model }}</td>
-                <td>{{ $bug->error_code }}</td>
-                <td>{!! App\UI\GeneralBeautifier::createOperationBtn($bug) !!}</td>
-            </tr>
+            <td>{{ $bug->id }}</td>
+            <td>{{ App\UI\GeneralBeautifier::mapStatusToString($bug->status) }}</td>
+            <td>{{ $bug->title }}</td>
+            <td>{{ App\UI\GeneralBeautifier::truncateContent($bug->content, 30) }}</td>
+            <td>{{ $bug->created_at }}</td>
+            <td>{{ $bug->presenter }}</td>
+            <td>{{ $bug->solved_at }}</td>
+            <td>{{ App\UI\GeneralBeautifier::truncateContent($bug->solution, 30) }}</td>
+            <td>{{ $bug->solver }}</td>
+            <td>{!! App\UI\GeneralBeautifier::decoratePriority($bug->priority) !!}</td>
+            <td>{{ $bug->model }}</td>
+            <td>{{ $bug->error_code }}</td>
+            <td>{!! App\UI\GeneralBeautifier::createOperationBtn($bug) !!}</td>
+        </tr>
         @endforeach
         </tbody>
     </table>

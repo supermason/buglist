@@ -18,7 +18,7 @@ class BugsTableSeeder  extends Illuminate\Database\Seeder {
                 'title' => '测试数据',
                 'bug_img' => '',
                 'content' => '这就是一段测试数据而已，无视就好',
-                'status' => $i % 3,
+                'status' => $i % 3 + 1,
                 'presenter_id' => 1,
                 'solved_at' => NULL,
                 'solution' => '',

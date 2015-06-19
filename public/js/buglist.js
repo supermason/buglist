@@ -35,7 +35,10 @@ function searchBugByName() {
  */
 function searchBuyByOption()
 {
+    var solverId = $('#bugSolver').val();
+    var status = $('#statusSelect').val();
     
+    window.location.href = "/search/" + solverId + "/" + status;
 }
 
 

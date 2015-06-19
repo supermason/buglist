@@ -9,9 +9,9 @@ namespace App\Constants;
  */
 class BugStatus {
     
-    const PENDING = 0;
+    const PENDING = 1;
     
-    const STANDBY = 1;
+    const STANDBY = 2;
     
-    const OK = 2;
+    const OK = 3;
 }

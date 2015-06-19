@@ -19,15 +19,17 @@ class GeneralBeautifier {
      */
     public static function truncateContent($content, $displayLength)
     {
-        $contentLength = strlen($content);
+        $newContent = trim($content);
+        
+        $contentLength = strlen($newContent);
         
         if ($contentLength <= $displayLength)
         {
-            return $content;
+            return $newContent;
         }
         else
         {
-            return substr($content, 0, $displayLength);
+            return substr($newContent, 0, $displayLength);
         }
     }
     
@@ -37,7 +39,7 @@ class GeneralBeautifier {
      */
     public static function decoratePriority($priority)
     {
-        return '<span class="' . ($priority == 0 ? 'normal' : 'emergent') . '">[' . ($priority == 0 ? '一般' : '紧急') . ']</span>';
+        return '<span class="' . ($priority == 0 ? 'normal' : 'emergent') . '">[' . ($priority == 0 ? '紧急' : '一般') . ']</span>';
     }
     
     /**
@@ -49,11 +51,11 @@ class GeneralBeautifier {
         // Pending，Standby，OK
         switch ($status)
         {
-            case 1:
+            case BugStatus::STANDBY:
                 return "Standby";
-            case 2:
+            case BugStatus::OK:
                 return "OK";
-            case 0:
+            case BugStatus::PENDING:
             default:
                 return "Pending";
         }
@@ -69,8 +71,8 @@ class GeneralBeautifier {
         
         $html = '<a href="/@/' . $bug->id . '" class="btn # btn-sm">%</a>';
         
-        // 如果是提交人或者解决人，则跳转到编辑页面
-        if ($bug->solver_id == $curUserId || $bug->presenter_id == $curUserId)
+        // 如果是提交人或者解决人且bug没有修复，则跳转到编辑页面
+        if (($bug->solver_id == $curUserId || $bug->presenter_id == $curUserId) && $bug->status != BugStatus::OK)
         {
             $html = str_replace('@', 'edit', $html);
             $html = str_replace('#', 'btn-danger', $html);
@@ -112,7 +114,7 @@ class GeneralBeautifier {
      * @param int $val2
      * @return string
      */
-    private static function checkSelection($val1, $val2)
+    public static function checkSelection($val1, $val2)
     {
         return  $val1 == $val2 ? 'selected="selected"' : '';
     }

@@ -138,8 +138,9 @@ class BugsHelper {
         }
         else
         {
-            // 浏览bug的人既不是提交人也不是解决人，就只能看
-            if ($data["presenter_id"] != BugsHelper::$userId && $data['solver_id'] != BugsHelper::$userId)
+            // 浏览bug的人既不是提交人也不是解决人或者bug已经解决了，就只能看
+            if (($data["presenter_id"] != BugsHelper::$userId && $data['solver_id'] != BugsHelper::$userId) 
+                    || ($data['status'] == \App\Constants\BugStatus::OK))
             {
                 return "disabled";
             }
