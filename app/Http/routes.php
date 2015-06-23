@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/richeditor', function(){
         return view('wysiwyg');
     });
+    
+    Route::get('/bugimg/{id}', 'BugController@viewImg');
 });
 
 Route::controllers([

@@ -18,7 +18,7 @@ class CreateBugsTable extends Migration
             
             $table->increments('id')->comment('主键，自增列');
             $table->string('title')->comment('标题');
-            $table->text('bug_img')->nullable()->comment('bug截图');
+            $table->mediumText('bug_img')->nullable()->comment('bug截图'); // text有64k大小的限制
             $table->text('content')->comment('错误内容');
             $table->string('status')->default(1)->comment('bug状态[Pending，Standby，OK]'); // 新添加时默认为1
             $table->string('presenter_id')->comment('提交人编号');

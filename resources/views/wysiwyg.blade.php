@@ -10,6 +10,12 @@
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet" type="text/css">
     
+    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="/js/jquery.hotkeys.js"></script>
+    <script src="/js/bootstrap.3.3.4.min.js"></script>
+    <script src="/js/bootstrap-wysiwyg.js"></script>
+    <script src="/js/zclip/ZeroClipboard.min.js"></script>
+    
   </head>
   <body>
 
@@ -77,20 +83,13 @@
         <div class="form-group">
             <textarea class="form-control" rows="5" id="imgBase64Str"></textarea>
             <button class="btn btn-danger" id="clear">清空</button>
-            <button class="btn btn-success" id="copyToClipboard">拷贝到剪切板</button>
-            <button class="btn btn-warning" id='getBase64ImgStr'>获取图片64位编码字符串</button>
+            <button class="btn btn-success" id='getBase64ImgStr'>获取图片64位编码字符串并拷贝到剪切板</button>
             
         </div>
         
     </div>
   </div>
 </div>
-
-<script src="/js/jquery-2.1.3.min.js"></script>
-<script src="/js/jquery.hotkeys.js"></script>
-<script src="/js/bootstrap.3.3.4.min.js"></script>
-<script src="/js/bootstrap-wysiwyg.js"></script>
-<script src="/js/zclip/jquery.zclip.min.js"></script>
 
 <script>
   $(function(){
@@ -129,31 +128,33 @@
 
     $(document).ready(function(){
         
-        $('#copyToClipboard').zclip({ 
-            path: 'js/zclip/ZeroClipboard.swf', 
-            copy: $('#imgBase64Str').val() 
+        $('#clear').click(function(){
+            $('#editor').cleanHtml();
+            client.clearData();
+            $('#imgBase64Str').val('');
         });
-                
-        $('#getBase64ImgStr').click(function(){
+    });
+    
+    var client = new ZeroClipboard($('#getBase64ImgStr'));
+    client.on('ready', function(event) {
+        
+        client.on('copy', function(event) {
             var img = $('#editor').find('img');
-            if (img.length > 0)
-            {
+            if (img.length > 0) {
                 $('#imgBase64Str').val(img.attr('src'));
-            }
-            else
-            {
+                event.clipboardData.setData('text/plain', $('#imgBase64Str').val());
+            } else {
                 $('#imgBase64Str').val('');
                 alert('请黏贴一张图片到富文本框内！');
             }
         });
         
-        $('#clear').click(function(){
-            $('#editor').cleanHtml();
-            $('#imgBase64Str').val('');
+        client.on('aftercopy', function(event){
+            if (event.data['text/plain'] !== undefined) {
+                alert('图片base64编码数据拷贝成功！');
+            }
         });
-        
     });
-    
 </script>
 </body>
 </html>

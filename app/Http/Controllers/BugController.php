@@ -228,6 +228,16 @@ class BugController extends Controller
         ]);
     }
     
+    /**
+     * 查看bug原图
+     * @param int id
+     * @return Response
+     */
+    public function viewImg($id) 
+    {
+        return view('bugimg')->withSrc(Bug::find($id)->bug_img);
+    }
+    
     /*
     |--------------------------------------------------------------------------
     | 私有工具方法

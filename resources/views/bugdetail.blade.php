@@ -38,7 +38,9 @@
                             <textarea class="form-control" id="bugImg" name="bugImg" placeholder="请将富文本编辑器中的图片64位编码数据粘贴至此" rows='10'></textarea>
                             <a class="btn btn-default top-gap" href="{{ URL('/richeditor') }}" target="_blank">打开富文本编辑器</a>                         
                             @else
-                            <img src="{{$data['bug']->bug_img}}"/>
+                            <a href="{{URL('/bugimg/' . $data['bug']->id)}}" target="_blank">
+                                <img src="{{$data['bug']->bug_img}}" class="auto-size" title="点击查看原图"/>
+                            </a> 
                             @endif
                         </div>
                     </div>
