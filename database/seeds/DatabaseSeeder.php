@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         
         $this->call('UsersTableSeeder');
         $this->command->info('Users Table 成功填充！');
-        $this->call('BugsTableSeeder');
-        $this->command->info('Bugs Table 成功填充！');
+//        $this->call('BugsTableSeeder');
+//        $this->command->info('Bugs Table 成功填充！');
         
         Model::reguard();
     }
