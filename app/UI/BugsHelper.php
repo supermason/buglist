@@ -264,4 +264,30 @@ class BugsHelper {
             return '你不应该看见这个按钮';
         }
     }
+    
+    /**
+     * 查找解决人姓名
+     * @param int $id
+     * @param array $solvers
+     * @return string
+     */
+    public static function getSolverName($id, $solvers)
+    {
+        if ($id == BugsHelper::$userId)
+        {
+            return '你';
+        }
+        else
+        {
+            foreach ($solvers as $solver)
+            {
+                if ($id == $solver->id)
+                {
+                    return $solver->name;
+                }
+            }
+            
+            return '【无名氏】';
+        }
+    }
 }
