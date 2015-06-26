@@ -136,9 +136,10 @@ class BugsHelper {
      * 查看页面，隐藏提交按钮
      * @return string
      */
-    public static function needHideForShow()
+    public static function needHideForShow($bug)
     {
-        return !BugsHelper::$isAddPage && !BugsHelper::$isEditPage ? "hidden" : "";
+//        return !BugsHelper::$isAddPage && !BugsHelper::$isEditPage ? "hidden" : "";
+        return \Illuminate\Support\Facades\Auth::user()->id != $bug->presenter_id || $bug->status == \App\Constants\BugStatus::OK ? "hidden" : "";
     }
 
     /**
@@ -149,22 +150,15 @@ class BugsHelper {
      */
     public static function needDisabled($data)
     {
-        if (BugsHelper::isEditablePage())
+        // 浏览bug的人既不是提交人也不是解决人或者bug已经解决了，就只能看
+        if ($data["presenter_id"] != \Illuminate\Support\Facades\Auth::user()->id 
+                || ($data['status'] == \App\Constants\BugStatus::OK))
         {
-            return "";
+            return "disabled";
         }
         else
         {
-            // 浏览bug的人既不是提交人也不是解决人或者bug已经解决了，就只能看
-            if (($data["presenter_id"] != BugsHelper::$userId && $data['solver_id'] != BugsHelper::$userId) 
-                    || ($data['status'] == \App\Constants\BugStatus::OK))
-            {
-                return "disabled";
-            }
-            else
-            {
-                return "";
-            }
+            return "";
         }
     }
     
@@ -289,5 +283,25 @@ class BugsHelper {
             
             return '【无名氏】';
         }
+    }
+    
+    /**
+     * 查看信息时，隐藏编辑菜单
+     * @param type $bug
+     * @return string
+     */
+    public static function needHideEditorToolBar($bug)
+    {
+        return $bug->present_id != \Illuminate\Support\Facades\Auth::user()->id ? "hidden" : "";
+    }
+    
+    /**
+     * 
+     * @param type $bug
+     * @return string
+     */
+    public static function needHideSolution($bug)
+    {
+        return ($bug->status != \App\Constants\BugStatus::OK) ? "hidden" : "";
     }
 }

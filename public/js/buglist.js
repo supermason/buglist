@@ -41,4 +41,28 @@ function searchBuyByOption()
     window.location.href = "/search/" + solverId + "/" + status;
 }
 
+function fillFormData(form) {
+    var jqForm = $(form);
+    var formId = jqForm.attr('id');
+    
+    if (formId === 'addForm' || formId === 'modifyForm') {
+        var input = jqForm.find('input#bugDetail');
+        input.val($('#editor').html());
+    }
+    
+    return true;
+}
 
+function doSubmit(btn) {
+    var jqBtn = $(btn);
+    var jqForm = $('#fixForm');
+    var bugId = jqForm.attr('action');
+    
+    if (jqBtn.attr('id') === 'btnFix') {
+        jqForm.attr('action', '/update/' + bugId);
+    } else {
+        jqForm.attr('action', '/negotiate/' + bugId);
+    }
+    
+    jqForm.submit();
+}

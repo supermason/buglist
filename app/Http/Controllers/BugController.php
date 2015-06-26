@@ -58,8 +58,7 @@ class BugController extends Controller
      */
     public function create()
     {
-        return view('bugdetail')->withData([
-            'bug' => null,
+        return view('addbug')->withData([
             'solvers' => User::all(),
         ]);
     }
@@ -73,28 +72,26 @@ class BugController extends Controller
     {
         $this->validate($request, [
             'bugTitle' => 'required',
-            'bugContent' => 'required',
         ]);
         
         $bug = new Bug();
         $bug->title = Input::get('bugTitle');
-        $bug->bug_img = Input::get('bugImg');
-        $bug->content = trim(Input::get('bugContent'));
+        $bug->bug_detail = Input::get('bugDetail');
         $bug->presenter_id = Auth::user()->id;
         $bug->solver_id = Input::get('bugSolver');
-        $bug->status = Input::get('bugStatus');
+        $bug->status = BugStatus::PENDING;
         $bug->priority = Input::get('bugPriority');
         $bug->model = Input::get('bugModel');
         $bug->error_code = Input::get('bugErrorCode');
-        $bug->solution = trim(Input::get('bugSolution'));
         
         if ($bug->save())
         {
-            return redirect('/success')->withMessage([
-                'info' => 'Bug[' . Input::get('bugTitle')  . ']添加成功！',
-                'to' => '/all',
-                'back' => '/create',
-            ]);
+//            return redirect('/success')->withMessage([
+//                'info' => 'Bug[' . Input::get('bugTitle')  . ']添加成功！',
+//                'to' => '/all',
+//                'back' => '/create',
+//            ]);
+            return Redirect::to('/all');
         }
         else
         {
@@ -129,6 +126,16 @@ class BugController extends Controller
             'solvers' => User::all(),
         ]);
     }
+    
+    /**
+     * 进入修复bug页面
+     * @param int $id
+     * @return Response
+     */
+    public function fix($id)
+    {
+        return view('fixbug')->withData($this->queryByBugId($id));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -146,26 +153,63 @@ class BugController extends Controller
         }
         else
         {
-            $bug->title = Input::get('bugTitle');
-            $bug->content = trim(Input::get('bugContent'));
-            $bug->status = Input::get('bugStatus');
-            if ($bug->status == BugStatus::OK)
+            $process = Input::get('process');
+            
+            if ($process == 'fix') // 修复bug
             {
+                $bug->status = BugStatus::OK;
                 $bug->solved_at = date('Y-m-d H:i:s');
+                $bug->solution = trim(Input::get('bugSolution'));
+                $bug->solver_id = Input::get('solverId');
             }
-            $bug->solver_id = Input::get('bugSolver');
-            $bug->priority = Input::get('bugPriority');
-            $bug->model = Input::get('bugModel');
-            $bug->error_code = Input::get('bugErrorCode');
-            $bug->solution = trim(Input::get('bugSolution'));
+            else // 提交人自己修改bug
+            {
+                $bug->title = Input::get('bugTitle');
+                $bug->bug_detail = trim(Input::get('bugDetail'));
+                $bug->solver_id = Input::get('bugSolver');
+                $bug->priority = Input::get('bugPriority');
+                $bug->model = Input::get('bugModel');
+                $bug->error_code = Input::get('bugErrorCode');
+            }
+            
             
             if ($bug->push())
             {
-                return redirect('/success')->withMessage([
-                    'info' => 'Bug[' . Input::get('bugTitle')  . ']修改成功！',
-                    'to' => '/all',
-                    'back' => '',
-                ]);
+//                return redirect('/success')->withMessage([
+//                    'info' => 'Bug[' . Input::get('bugTitle')  . ']修改成功！',
+//                    'to' => '/all',
+//                    'back' => '',
+//                ]);
+                return Redirect::to('/all');
+            }
+            else
+            {
+                return Redirect::back()->withInput()->withErrors('修改失败失败！');
+            }
+        }
+    }
+    
+     /**
+     * 暂停一条bug
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function negotiate($id)
+    {
+        $bug = Bug::find($id);
+        
+        if (empty($bug))
+        {
+            abort(500);
+        }
+        else
+        {
+            $bug->status = BugStatus::STANDBY;
+            
+            if ($bug->push())
+            {
+                return Redirect::to('/all');
             }
             else
             {
@@ -251,7 +295,7 @@ class BugController extends Controller
      */
     private function createQueryObj() 
     {
-        return Bug::select('bugs.id', 'title', 'bug_img', 'content', 'status', 'bugs.created_at', 
+        return Bug::select('bugs.id', 'title', 'bug_detail', 'status', 'bugs.created_at', 
                             'presenter_id', 'u1.name as presenter', 
                             'solved_at', 'solution', 
                             'solver_id', 'u2.name as solver', 'priority', 'model', 'error_code')

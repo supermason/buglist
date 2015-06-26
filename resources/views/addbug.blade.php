@@ -18,25 +18,23 @@
     @endif
     <div class="panel panel-primary">
         <div class="panel-heading">
-            {{ App\UI\BugsHelper::GetPanelHeading() }}
+            添加Bug信息
         </div>
         <div class="panel-body">
-            <fieldset {{ App\UI\BugsHelper::needDisabled($data['bug']) }}>
-                <form class="form-horizontal" method="POST" id="modifyForm" action="{{ URL('/update/' . $data['bug']->id) }}" onsubmit="return fillFormData(this);" >
+            <fieldset>
+                <form class="form-horizontal" id="addForm" method="POST" action="{{ URL('/store')}}" onsubmit="return fillFormData(this);" >
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    <input type="hidden" name="process" value="modify" />
                     <div class="form-group">
                         <label for="bugTitle" class="col-sm-2 control-label">标题：</label>
                         <div class=" col-sm-10">
-                            <input type="text" class="form-control" name="bugTitle" placeholder="请输入标题" required="required" 
-                                   value="{{ App\UI\BugsHelper::fillForm($data['bug'], 'title') }}" />
+                            <input type="text" class="form-control" name="bugTitle" placeholder="请输入标题" required="required" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="bugDetail" class="col-sm-2 control-label">bug详情：</label>
+                        <input id="bugDetail" name="bugDetail" type="hidden"/>
                         <div class=" col-sm-10">
-                            <input type="hidden" id="bugDetail" name="bugDetail"/>
-                            <div class="btn-toolbar {!! App\UI\BugsHelper::needHideEditorToolBar($data['bug']) !!}" data-role="editor-toolbar" data-target="#editor">
+                                <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
                                   <div class="btn-group">
                                     <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
                                       <ul class="dropdown-menu">
@@ -94,58 +92,38 @@
                                 </div>
                         </div>
                     </div>
-                    <div class="form-group {!! App\UI\BugsHelper::needHideForAdd() !!}">
-                        <label for="bugCreatedAt" class="col-sm-2 control-label">提交时间：</label>
-                        <div class=" col-sm-4">
-                            <input type="text" class="form-control" name="bugCreatedAt" placeholder="" disabled 
-                                   value="{{ App\UI\BugsHelper::fillForm($data['bug'], 'created_at') }}">
-                        </div>
-                        <label for="bugPresenter" class="col-sm-2 control-label">提交人：</label>
-                        <div class=" col-sm-4">
-                            <input type="text" class="form-control" name="bugPresenter" placeholder="" disabled 
-                                   value="{{ App\UI\BugsHelper::fillForm($data['bug'], 'presenter') }}">
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="bugPriority" class="col-sm-2 control-label">优先级：</label>
                         <div class=" col-sm-4">
                             <label class="radio-inline">
-                                <input type="radio" name="bugPriority" id="inlineRadio1" value="0" 
-                                       {!! App\UI\GeneralBeautifier::checkChecked($data['bug']['priority'], 0) !!}}/> 紧急
+                                <input type="radio" name="bugPriority" id="inlineRadio1" value="0" checked="checked"> 紧急
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="bugPriority" id="inlineRadio2" value="1"
-                                       {!! App\UI\GeneralBeautifier::checkChecked($data['bug']['priority'], 1) !!}}/> 一般
+                                <input type="radio" name="bugPriority" id="inlineRadio2" value="1"> 一般
                             </label>
                         </div>
                         <label for="bugSolver" class="col-sm-2 control-label">解决人：</label>
                         <div class=" col-sm-4">
                             <select class="form-control" name="bugSolver">
-                                {!! App\UI\GeneralBeautifier::fillSelect($data['solvers'], App\UI\BugsHelper::fillForm($data['bug'], 'solver_id')) !!}
+                                @foreach ($data['solvers'] as $solver)
+                                <option value="{{$solver->id}}">{{$solver->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="bugModel" class="col-sm-2 control-label">模块：</label>
                         <div class=" col-sm-4">
-                            <input type="text" class="form-control" name="bugModel" placeholder="请输入bug所属的模块，可以不填"
-                                   value="{{ App\UI\BugsHelper::fillForm($data['bug'], 'model') }}" />
+                            <input type="text" class="form-control" name="bugModel" placeholder="请输入bug所属的模块，可以不填"/>
                         </div>
                         <label for="bugErrorCode" class="col-sm-2 control-label">错误码：</label>
                         <div class=" col-sm-4">
-                            <input type="text" class="form-control" name="bugErrorCode" placeholder="请输入与该bug相关的错误码，可以不填"
-                                   value="{{ App\UI\BugsHelper::fillForm($data['bug'], 'error_code') }}" />
-                        </div>
-                    </div>
-                    <div class="form-group {!!App\UI\BugsHelper::needHideSolution($data['bug'])!!}">
-                        <label for="bugSolution" class="col-sm-2 control-label">解决方案：</label>
-                        <div class=" col-sm-10">
-                            <textarea class="form-control" name="bugSolution" placeholder="请将解决方案填写在此处" rows="10">{{App\UI\BugsHelper::fillForm($data['bug'], 'solution') }}</textarea>
+                            <input type="text" class="form-control" name="bugErrorCode" placeholder="请输入与该bug相关的错误码，可以不填"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-primary  {!! App\UI\BugsHelper::needHideForShow($data['bug']) !!}" >修改 &nbsp;<span class="glyphicon glyphicon-edit"></span></button>
+                            <button class="btn btn-primary " >添加 &nbsp;<span class="glyphicon glyphicon-plus"></span></button>
                         </div>
                     </div>
                 </form>  
@@ -185,8 +163,6 @@
     initToolbarBootstrapBindings();  
     $('#editor').wysiwyg();
     window.prettyPrint && prettyPrint();
-    
-    $('#editor').html('{!!trim($data["bug"]->bug_detail)!!}');
   });
 </script>
 

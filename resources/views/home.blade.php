@@ -44,7 +44,9 @@
         <div class="form-group bordered-group">
             <a class="btn btn-primary" href="{{URL('/all')}}">全部bug&nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt"></span></a>
             <a class="btn btn-primary" href="{{URL('/')}}">需要我解决的&nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></a>
-            <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign"></a>
+        </div>
+        <div class="form-group bordered-group" style="float: right;">
+            <a href="{{ URL('/create')}}" class="btn btn-danger">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </form>
 
@@ -56,7 +58,6 @@
                 <td>编号</td>
                 <td>状态</td>
                 <td>标题</td>
-                <td>内容</td>
                 <td>提交时间</td>
                 <td>提交人</td>
                 <td>解决时间</td>
@@ -74,7 +75,6 @@
             <td>{{ $bug->id }}</td>
             <td>{{ App\UI\GeneralBeautifier::mapStatusToString($bug->status) }}</td>
             <td>{{ $bug->title }}</td>
-            <td>{{ App\UI\GeneralBeautifier::truncateContent($bug->content, 30) }}</td>
             <td>{{ $bug->created_at }}</td>
             <td>{{ $bug->presenter }}</td>
             <td>{{ $bug->solved_at }}</td>

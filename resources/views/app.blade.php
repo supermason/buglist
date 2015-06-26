@@ -8,6 +8,7 @@
 	<title>BugList</title>
 
 <!--	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">-->
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
         <link href="/css/app.css" rel="stylesheet" type="text/css">       
 
         <!-- Scripts -->

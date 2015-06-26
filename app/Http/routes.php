@@ -18,7 +18,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/store', 'BugController@store'); // 添加一条bug信息 
     Route::get('/show/{id}', 'BugController@show')->where('id', '[0-9]+'); // 查看 一条bug
     Route::get('/edit/{id}', 'BugController@edit')->where('id', '[0-9]+'); // 跳转到 修改界面
+    Route::get('/fix/{id}', 'BugController@fix')->where('id', '[0-9]+'); // 跳转到 修复界面
     Route::post('/update/{id}', 'BugController@update')->where('id', '[0-9]+'); // 修改一条bug信息 
+    Route::post('/negotiate/{id}', 'BugController@negotiate')->where('id', '[0-9]+'); // standby一条bug信息 
     Route::get('/search/{id}/{status}', 'BugController@search')
             ->where([
                 'id' => '[0-9]+',
@@ -26,13 +28,13 @@ Route::group(['middleware' => 'auth'], function() {
             ]); // 根据条件查询bug，无条件则返回全部bug
     Route::get('/all', 'BugController@all');
     
-    Route::get('/success', 'SuccessController@index');
+//    Route::get('/success', 'SuccessController@index');
     
-    Route::get('/richeditor', function(){
-        return view('wysiwyg');
-    });
+//    Route::get('/richeditor', function(){
+//        return view('wysiwyg');
+//    });
     
-    Route::get('/bugimg/{id}', 'BugController@viewImg');
+//    Route::get('/bugimg/{id}', 'BugController@viewImg');
 });
 
 Route::controllers([

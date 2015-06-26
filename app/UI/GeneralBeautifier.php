@@ -71,18 +71,28 @@ class GeneralBeautifier {
         
         $html = '<a href="/@/' . $bug->id . '" class="btn # btn-sm">%</a>';
         
-        // 如果是提交人或者解决人且bug没有修复，则跳转到编辑页面
-        if (($bug->solver_id == $curUserId || $bug->presenter_id == $curUserId) && $bug->status != BugStatus::OK)
+        //如果是未修复状态，
+        if ($bug->status != BugStatus::OK)
         {
-            $html = str_replace('@', 'edit', $html);
-            $html = str_replace('#', 'btn-danger', $html);
-            $html = str_replace('%', '修改', $html);
+            //如果是提交人，则可以修改[修改+修复]
+            if ($bug->presenter_id == $curUserId)
+            {
+                $html = str_replace('@', 'edit', $html);
+                $html = str_replace('#', 'btn-danger', $html);
+                $html = str_replace('%', '修改', $html);
+            }
+            else // 其他人是[查看+修复]
+            {
+                $html = str_replace('@', 'show', $html);
+                $html = str_replace('#', 'btn-info', $html);
+                $html = str_replace('%', '查看', $html);
+            }
+            
+            $html .= ('&nbsp;&nbsp;<a href="/fix/' . $bug->id . '" class="btn btn-success btn-sm">修复</a>');
         }
-        else
+        else //修复状态直接是查看
         {
-            $html = str_replace('@', 'show', $html);
-            $html = str_replace('#', 'btn-info', $html);
-            $html = str_replace('%', '查看', $html);
+            return '<a href="/show/' . $bug->id . '" class="btn btn-info btn-sm">查看</a>';
         }
         
         return $html;
@@ -119,6 +129,18 @@ class GeneralBeautifier {
         return  $val1 == $val2 ? 'selected="selected"' : '';
     }
     
+    /**
+     * 判断两个值是否相等
+     * @param int $val1
+     * @param int $val2
+     * @return string
+     */
+    public static function checkChecked($val1, $val2)
+    {
+        return  $val1 == $val2 ? 'checked="checked"' : '';
+    }
+
+
     public static function setTrColorByBugStatus($bug)
     {
         if ($bug->status == BugStatus::PENDING)
