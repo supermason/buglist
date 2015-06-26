@@ -13,7 +13,7 @@
         @else
         当前没有需要{{App\UI\BugsHelper::getSolverName($data['query']['id'], $data['solvers'])}}解决的bug！您可以
         <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>&nbsp;或
-        <a href="{{ URL('/all')}}" class="btn btn-danger">查看全部Bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>
+        <a href="{{ URL('/all')}}" class="btn btn-danger">查看全部Bug&nbsp;&nbsp;<span class="glyphicon glyphicon-list"></span></a>
         @endif
     </div>
     @else
