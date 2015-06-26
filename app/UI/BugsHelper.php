@@ -28,6 +28,12 @@ class BugsHelper {
     private static $isAddPage;
     
     /**
+     * 是否是查看全部界面
+     * @var type 
+     */
+    private static $isAllPage;
+    
+    /**
      * 当前登录的用户编号
      * @var type 
      */
@@ -43,6 +49,8 @@ class BugsHelper {
         BugsHelper::$isEditPage = strpos(BugsHelper::$curURL, 'edit');
         
         BugsHelper::$isAddPage = strpos(BugsHelper::$curURL, 'create');
+        
+        BugsHelper::$isAllPage = strpos(BugsHelper::$curURL, 'all');
         
         BugsHelper::$userId = \Illuminate\Support\Facades\Auth::user()->id;
     }
@@ -62,6 +70,15 @@ class BugsHelper {
     public static function isAddPage()
     {
         return BugsHelper::$isAddPage;
+    }
+    
+    /**
+     * 是否为显示全部界面
+     * @return bool
+     */
+    public static function isAllPage()
+    {
+        return BugsHelper::$isAllPage;
     }
 
     /**

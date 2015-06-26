@@ -1,12 +1,20 @@
 @extends('app')
 
 @section('content')
+
+{{ App\UI\BugsHelper::updateCurrentURI() }}
+
 <div class="container-fluid">
     @if (count($data['bugs']) == 0)
     <div class="alert alert-info">
+        @if (App\UI\BugsHelper::isAllPage())
+        太棒了，目前一个bug也没有！当然，你可以
+        <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>
+        @else
         当前没有需要您解决的bug！您可以
-        <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug</a>&nbsp;或
-        <a href="{{ URL('/all')}}" class="btn btn-danger">查看全部Bug</a>
+        <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>&nbsp;或
+        <a href="{{ URL('/all')}}" class="btn btn-danger">查看全部Bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>
+        @endif
     </div>
     @else
     <form class="form-inline search-form" onsubmit="return false;">
