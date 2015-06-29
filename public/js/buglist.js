@@ -41,6 +41,11 @@ function searchBuyByOption()
     window.location.href = "/search/" + solverId + "/" + status;
 }
 
+/**
+ * 在表单提交前将富文本框中的内容保存到一个input内
+ * @param {htmlele} form
+ * @returns {Boolean}
+ */
 function fillFormData(form) {
     var jqForm = $(form);
     var formId = jqForm.attr('id');
@@ -53,6 +58,11 @@ function fillFormData(form) {
     return true;
 }
 
+/**
+ * 提交表单
+ * @param {html ele} btn
+ * @returns {void}
+ */
 function doSubmit(btn) {
     var jqBtn = $(btn);
     var jqForm = $('#fixForm');

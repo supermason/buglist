@@ -186,7 +186,7 @@
     $('#editor').wysiwyg();
     window.prettyPrint && prettyPrint();
     
-    $('#editor').html('{!!trim($data["bug"]->bug_detail)!!}');
+    $('#editor').html('{!!str_replace(PHP_EOL, "", trim($data["bug"]->bug_detail))!!}');
   });
 </script>
 

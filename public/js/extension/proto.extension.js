@@ -30,6 +30,13 @@ String.prototype.endWith = function(str) {
   return reg.test(this);        
 };
 
+/**
+ * 去除各种换行
+ */
+String.prototype.replaceNewLine = function() {
+    return this.replace(/(\n)+|(\r\n)+/g, "");
+};
+
 /* 
  * 给Array 加入foreach方法
  */
