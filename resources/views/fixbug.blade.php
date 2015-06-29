@@ -82,7 +82,7 @@
 <script>
     $(function(){
         $('#editor').wysiwyg();
-        $('#editor').html('{!!str_replace(PHP_EOL, "", trim($data["bug"]->bug_detail))!!}');
+        $('#editor').html('{!!str_replace(PHP_EOL, "", trim($data->bug_detail))!!}');
         $('#editor').attr('disabled', 'disabled');
     });
 </script>
