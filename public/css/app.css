@@ -6319,6 +6319,15 @@ label,
   float: right;
   margin-left: 5px;
 }
+.top-right {
+  float: right;
+}
+.fix-right-btn {
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "";
+}
 /*
    统一边框函数
  */

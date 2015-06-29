@@ -16,12 +16,12 @@
         </ul>
     </div>
     @endif
-    <a class="btn btn-default right-btn" href="javascript:history.go(-1);" >
-        <span class="glyphicon glyphicon-backward"></span>&nbsp;返回
-    </a>
     <div class="panel panel-primary">
-        <div class="panel-heading">
+        <div class="panel-heading fix-right-btn">
             修复Bug
+            <a class="btn btn-default btn-sm top-right" href="javascript:history.go(-1);" >
+                <span class="glyphicon glyphicon-backward"></span>&nbsp;返回
+            </a>
         </div>
         <div class="panel-body">
             <fieldset>
