@@ -53,9 +53,10 @@ function fillFormData(form) {
     
     if (formId === 'addForm' || formId === 'modifyForm') {
         var input = jqForm.find('input#bugDetail');
-        input.val($('#editor').html());
+        var content = $.trim($('#editor').html());
+        input.val(content);
         
-        canSubmit = $.trim(input.val()) !== '';
+        canSubmit = content !== '' && content !== '<br>' && content !== '<br/>';
     }
     
     if (canSubmit) {
