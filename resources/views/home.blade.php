@@ -9,11 +9,11 @@
     <div class="alert alert-info">
         @if (App\UI\BugsHelper::isAllPage())
         太棒了，目前一个bug也没有！当然，你可以
-        <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>
+        <a href="{{ URL('/create')}}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加新bug</a>
         @else
         当前没有需要{{App\UI\BugsHelper::getSolverName($data['query']['id'], $data['solvers'])}}解决的bug！您可以
-        <a href="{{ URL('/create')}}" class="btn btn-primary">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"></span></a>&nbsp;或
-        <a href="{{ URL('/all')}}" class="btn btn-danger">查看全部Bug&nbsp;&nbsp;<span class="glyphicon glyphicon-list"></span></a>
+        <a href="{{ URL('/create')}}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加新bug</a>&nbsp;或
+        <a href="{{ URL('/all')}}" class="btn btn-danger"><span class="glyphicon glyphicon-list"></span>&nbsp;查看全部Bug</a>
         @endif
     </div>
     @else
@@ -39,14 +39,14 @@
                     {!! App\UI\GeneralBeautifier::fillSelect($data['solvers'], $data['query']['id']) !!}
                 </select>
             </div>
-            <button type="button" class="btn btn-primary btn-sm" onclick="searchBuyByOption();" >查询&nbsp;&nbsp;<span class="glyphicon glyphicon-search"></span></button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="searchBuyByOption();" ><span class="glyphicon glyphicon-search"></span>&nbsp;查询</button>
         </div>
         <div class="form-group bordered-group">
-            <a class="btn btn-primary" href="{{URL('/all')}}">全部bug&nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt"></span></a>
-            <a class="btn btn-primary" href="{{URL('/')}}">需要我解决的&nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></a>
+            <a class="btn btn-primary" href="{{URL('/all')}}"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;全部bug</a>
+            <a class="btn btn-primary" href="{{URL('/')}}"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;需要我解决的</a>
         </div>
         <div class="form-group bordered-group" style="float: right;">
-            <a href="{{ URL('/create')}}" class="btn btn-danger">添加新bug&nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign"></a>
+            <a href="{{ URL('/create')}}" class="btn btn-danger">添加新bug</a>
         </div>
     </form>
 
@@ -61,11 +61,7 @@
                 <td>提交时间</td>
                 <td>提交人</td>
                 <td>解决时间</td>
-                <td>解决方案</td>
                 <td>解决人</td>
-                <td>优先级</td>
-                <td>模块</td>
-                <td>错误号</td>
                 <td>操作</td>
             </tr>
         </thead>
@@ -74,15 +70,11 @@
         <tr class="{{ App\UI\GeneralBeautifier::setTrColorByBugStatus($bug) }}">
             <td>{{ $bug->id }}</td>
             <td>{{ App\UI\GeneralBeautifier::mapStatusToString($bug->status) }}</td>
-            <td>{{ $bug->title }}</td>
+            <td>{!! App\UI\GeneralBeautifier::getBugTitle($bug) !!}</td>
             <td>{{ $bug->created_at }}</td>
             <td>{{ $bug->presenter }}</td>
             <td>{{ $bug->solved_at }}</td>
-            <td>{{ App\UI\GeneralBeautifier::truncateContent($bug->solution, 30) }}</td>
             <td>{{ $bug->solver }}</td>
-            <td>{!! App\UI\GeneralBeautifier::decoratePriority($bug->priority) !!}</td>
-            <td>{{ $bug->model }}</td>
-            <td>{{ $bug->error_code }}</td>
             <td>{!! App\UI\GeneralBeautifier::createOperationBtn($bug) !!}</td>
         </tr>
         @endforeach

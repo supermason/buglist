@@ -52,7 +52,7 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-                                                                    成为用户&nbsp;&nbsp;<span class="glyphicon glyphicon-forward"></span>
+                                                                    <span class="glyphicon glyphicon-forward"></span>&nbsp;成为用户
 								</button>
 							</div>
 						</div>

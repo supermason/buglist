@@ -111,7 +111,7 @@ class GeneralBeautifier {
         
         foreach ($options as $option)
         {
-            $innerHtml .= ('<option value="'. $option->id . '"' . GeneralBeautifier::checkSelection($option->id,
+            $innerHtml .= ('<option value="'. $option->id . '" ' . GeneralBeautifier::checkSelection($option->id,
                             $selectedId) . '>' . $option->name . '</option>');
         }
         
@@ -168,6 +168,56 @@ class GeneralBeautifier {
         else
         {
             return 'success';
+        }
+    }
+    
+    /**
+     * 复杂标题处理 
+     * @param type $bug
+     * @return string
+     */
+    public static function getBugTitle($bug)
+    {
+        $title = $bug->title;
+        
+        if (trim($bug->model) != '' && trim($bug->error_code) != '')
+        {
+            $title = '【' . $bug->model . '-' . $bug->error_code . '】' . $title;
+        }
+        else
+        {
+            if (trim($bug->model) != '')
+            {
+                $title = '【' . $bug->model . '】' . $title;
+            }
+            else if (trim($bug->error_code) != '')
+            {
+                $title = '【' . $bug->error_code . '】' . $title;
+            }
+        }
+        
+        if ($bug->priority == 0)
+        {
+            $title = ('<span class="emergent">【紧急】</span>') . $title;
+        }
+        
+        return $title;
+    }
+    
+    /**
+     * 根据bug状态获取解决人标题显示文字
+     * @param type $bug
+     * @return string
+     */
+    public static function getSolverTitle($bug)
+    {
+        if ($bug->status == BugStatus::OK)
+        {
+            return "解决人：";
+        }
+        else
+        {
+            return '<span style="margin:-8px;">指定解决人：</span>';
         }
     }
 }

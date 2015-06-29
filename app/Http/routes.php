@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/edit/{id}', 'BugController@edit')->where('id', '[0-9]+'); // 跳转到 修改界面
     Route::get('/fix/{id}', 'BugController@fix')->where('id', '[0-9]+'); // 跳转到 修复界面
     Route::post('/update/{id}', 'BugController@update')->where('id', '[0-9]+'); // 修改一条bug信息 
-    Route::post('/negotiate/{id}', 'BugController@negotiate')->where('id', '[0-9]+'); // standby一条bug信息 
+    Route::get('/negotiate/{id}', 'BugController@negotiate')->where('id', '[0-9]+'); // standby一条bug信息 
     Route::get('/search/{id}/{status}', 'BugController@search')
             ->where([
                 'id' => '[0-9]+',

@@ -6315,6 +6315,10 @@ label,
 .no-border {
   border: transparent;
 }
+.right-btn {
+  float: right;
+  margin-left: 5px;
+}
 /*
    统一边框函数
  */
@@ -6392,9 +6396,16 @@ label,
 }
 .modal-backdrop {
   bottom: 0px;
+  height: 2000px;
 }
 .pagination {
   margin: 0px 0px 20px;
+}
+/*
+    覆盖默认图标的样式
+*/
+.glyphicon {
+  top: 2px;
 }
 /* 
     Created on : 2015-6-15, 13:18:05
@@ -6434,7 +6445,8 @@ label,
   margin: 10px;
   float: right;
 }
-#editor {
+#editor,
+#editorSolution {
   display: block;
   width: 100%;
   height: 34px;
@@ -6456,30 +6468,38 @@ label,
   max-height: 600px;
   max-width: 1024px;
 }
-#editor:focus {
+#editor:focus,
+#editorSolution:focus {
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
-#editor::-moz-placeholder {
+#editor::-moz-placeholder,
+#editorSolution::-moz-placeholder {
   color: #999999;
   opacity: 1;
 }
-#editor:-ms-input-placeholder {
+#editor:-ms-input-placeholder,
+#editorSolution:-ms-input-placeholder {
   color: #999999;
 }
-#editor::-webkit-input-placeholder {
+#editor::-webkit-input-placeholder,
+#editorSolution::-webkit-input-placeholder {
   color: #999999;
 }
 #editor[disabled],
+#editorSolution[disabled],
 #editor[readonly],
-fieldset[disabled] #editor {
+#editorSolution[readonly],
+fieldset[disabled] #editor,
+fieldset[disabled] #editorSolution {
   cursor: not-allowed;
   background-color: #eeeeee;
   opacity: 1;
 }
-textarea#editor {
+textarea#editor,
+textarea#editorSolution {
   height: auto;
 }
 .top-gap {

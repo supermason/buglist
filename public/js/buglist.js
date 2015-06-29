@@ -49,30 +49,39 @@ function searchBuyByOption()
 function fillFormData(form) {
     var jqForm = $(form);
     var formId = jqForm.attr('id');
+    var canSubmit = false;
     
     if (formId === 'addForm' || formId === 'modifyForm') {
         var input = jqForm.find('input#bugDetail');
         input.val($('#editor').html());
+        
+        canSubmit = $.trim(input.val()) !== '';
     }
     
-    return true;
+    if (canSubmit) {
+        return true;
+    } else {
+        $.masonUI.modalInfo('提示', '请填写Bug详细信息！', ModalType.ERROR);
+        return false;
+    }
 }
 
 /**
  * 提交表单
- * @param {html ele} btn
- * @returns {void}
+ * @param {html ele} form
+ * @returns {bool}
  */
-function doSubmit(btn) {
-    var jqBtn = $(btn);
-    var jqForm = $('#fixForm');
-    var bugId = jqForm.attr('action');
+function doSubmit(form) {
+    var jqForm = $(form);
+    var formOK = false;
     
-    if (jqBtn.attr('id') === 'btnFix') {
-        jqForm.attr('action', '/update/' + bugId);
+    var input = jqForm.find('input#bugSolution');
+    input.val($('#editorSolution').html());
+    
+    if ($.trim(input.val()) !== '') {
+        return true;
     } else {
-        jqForm.attr('action', '/negotiate/' + bugId);
+        $.masonUI.modalInfo('提示', '请填写解决方案内容！', ModalType.ERROR);
+        return false;
     }
-    
-    jqForm.submit();
 }

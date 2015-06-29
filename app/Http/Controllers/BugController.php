@@ -121,7 +121,7 @@ class BugController extends Controller
      */
     public function edit($id)
     {
-        return view('bugdetail')->withData([
+        return view('editbug')->withData([
             'bug' => $this->queryByBugId($id),
             'solvers' => User::all(),
         ]);
