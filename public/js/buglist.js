@@ -92,8 +92,6 @@ function doSubmit(form) {
  * @returns {Boolean}
  */
 function isEmptyContent(content) {
-    alert(content);
     content = $.trim(content).replace(/&nbsp;/ig,''); //去掉&nbsp;
-    alert(content);
     return content === '' || content === '<br>' || content === '<br/>';
 }
