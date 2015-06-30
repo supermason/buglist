@@ -49,17 +49,15 @@ function searchBuyByOption()
 function fillFormData(form) {
     var jqForm = $(form);
     var formId = jqForm.attr('id');
-    var canSubmit = false;
+    var content = '';
     
     if (formId === 'addForm' || formId === 'modifyForm') {
         var input = jqForm.find('input#bugDetail');
-        var content = $.trim($('#editor').html());
+        content = $.trim($('#editor').html());
         input.val(content);
-        
-        canSubmit = content !== '' && content !== '<br>' && content !== '<br/>';
     }
     
-    if (canSubmit) {
+    if (!isEmptyContent(content)) {
         return true;
     } else {
         $.masonUI.modalInfo('提示', '请填写Bug详细信息！', ModalType.ERROR);
@@ -74,15 +72,28 @@ function fillFormData(form) {
  */
 function doSubmit(form) {
     var jqForm = $(form);
-    var formOK = false;
+    var content = '';
     
     var input = jqForm.find('input#bugSolution');
-    input.val($('#editorSolution').html());
+    content = $.trim($('#editorSolution').html());
+    input.val(content);
     
-    if ($.trim(input.val()) !== '') {
+    if (!isEmptyContent(content)) {
         return true;
     } else {
         $.masonUI.modalInfo('提示', '请填写解决方案内容！', ModalType.ERROR);
         return false;
     }
+}
+
+/**
+ * 判断内容是否为空
+ * @param {String} content
+ * @returns {Boolean}
+ */
+function isEmptyContent(content) {
+    alert(content);
+    content = $.trim(content).replace(/&nbsp;/ig,''); //去掉&nbsp;
+    alert(content);
+    return content === '' || content === '<br>' || content === '<br/>';
 }
