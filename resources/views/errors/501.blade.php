@@ -46,7 +46,7 @@
             <div class="content">
                 <div class="title">
                     你要修复的Bug已经被修复了！
-                    <a href="/all">返回</a>
+                    <a href="{{URL('/all')}}">返回</a>
                 </div>
             </div>
         </div>
