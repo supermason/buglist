@@ -157,10 +157,17 @@ class BugController extends Controller
             
             if ($process == 'fix') // 修复bug
             {
-                $bug->status = BugStatus::OK;
-                $bug->solved_at = date('Y-m-d H:i:s');
-                $bug->solution = trim(Input::get('bugSolution'));
-                $bug->solver_id = Input::get('solverId');
+                if ($bug->status == BugStatus::OK) // 不能修复以修复的bug
+                {
+                    abort(501);
+                }
+                else
+                {
+                    $bug->status = BugStatus::OK;
+                    $bug->solved_at = date('Y-m-d H:i:s');
+                    $bug->solution = trim(Input::get('bugSolution'));
+                    $bug->solver_id = Input::get('solverId');
+                }
             }
             else // 提交人自己修改bug
             {
