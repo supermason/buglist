@@ -6604,6 +6604,7 @@ textarea.bug-detail {
   bottom: 0px;
   background-color: #666666;
   z-index: 9999;
+  cursor: pointer;
 }
 .detail-img {
   display: block;

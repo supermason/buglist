@@ -102,7 +102,7 @@ function isEmptyContent(content) {
  * @returns {undefined}
  */
 function popUpImg() {
-    var imgList = $("div>img");
+    var imgList = $("div img");
     
     if (imgList.length > 0) {
         imgList.each(function(){
