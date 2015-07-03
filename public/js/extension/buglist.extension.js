@@ -114,6 +114,20 @@ $.masonUI = {
         }
     },
     
+    coverInfo:function(content){
+        var modal = 
+                    "<div class=\"modal fade\" id=\"coverInfo\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">"
+                    +    "<div class=\"modal-dialog modal-sm\">"
+                    +        content
+                    +    "</div>"
+                    + "</div>";
+            
+            // 模态窗体设置
+        $("body").append(modal);
+        $('#coverInfo').on('hidden.bs.modal', function (e) { this.remove(); });
+        $("#coverInfo").modal();
+    },
+    
     /**
      * 为指定容器内的text加入回车键的支持
      * 

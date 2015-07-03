@@ -4,6 +4,8 @@ namespace App\UI;
 
 use App\Constants\BugStatus;
 
+use Illuminate\Support\Facades\Auth;
+
 /**
  * Description of GeneralBeautifier
  *
@@ -99,6 +101,16 @@ class GeneralBeautifier {
     }
     
     /**
+     * bugu是否已经解决了
+     * @param obj $bug
+     * @return string
+     */
+    public static function isBugSolved($bug)
+    {
+        return $bug->status == BugStatus::OK ? "disabled" : "";
+    }
+
+        /**
      * 填充select控件
      * 
      * @param array $options
@@ -118,6 +130,61 @@ class GeneralBeautifier {
         return $innerHtml;
     }
     
+    /**
+     * 获取解决人姓名
+     * @param type $options
+     * @param type $solverID
+     * @return string
+     */
+    public static function getSolverName($options, $solverID)
+    {
+        foreach ($options as $option)
+        {
+            if ($option->id == $solverID)
+            {
+                return $option->name;
+            }
+        }
+        
+        return "";
+    }
+    
+    /**
+     * 
+     * @param type $options
+     * @param type $bug
+     * @return type
+     */
+    public static function createSolverSelect($options, $bug)
+    {
+        if ($bug->status == BugStatus::OK)
+        {
+            return '<div class="col-sm-11 none-selection"><div class="form-control">' 
+                    . GeneralBeautifier::getSolverName($options, $bug->solver_id)
+                    . '</div></div>';
+        }
+        else
+        {
+            $solverID = BugsHelper::fillForm($bug, 'solver_id');
+            
+            if ($solverID == Auth::user()->id)
+            {
+                return '<div class=" col-sm-9">'
+                    . '<select class="form-control" name="bugSolver">'
+                    . GeneralBeautifier::fillSelect($options, $solverID)
+                    . '</select></div><div class="col-sm-1"><button type="submit" class="btn btn-warning">转移解决人</button></div>';
+            }
+            else
+            {
+                return '<div class=" col-sm-11">'
+                    . '<select class="form-control" name="bugSolver" disabled>'
+                    . GeneralBeautifier::fillSelect($options, $solverID)
+                    . '</select></div>';
+            }
+        }
+    }
+
+
     /**
      * 判断两个值是否相等
      * @param int $val1

@@ -29,10 +29,11 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <input type="hidden" name="process" value="fix" />
                     <input type="hidden" name="solverId" value="{{ Auth::user()->id }}" />
+                    <input type="hidden" name="bug_id" value="{{$data->id}}"/>
                     <div class="form-group">
                         <label for="bugTitle" class="col-sm-1 control-label">标题：</label>
                         <div class=" col-sm-11">
-                            <div class="form-control">
+                            <div class="form-control none-selection">
                                 {!! App\UI\GeneralBeautifier::getBugTitle($data) !!}
                             </div>
                         </div>
@@ -40,8 +41,8 @@
                     <div class="form-group">
                         <label for="bugDetail" class="col-sm-1 control-label">bug详情：</label>
                         <div class=" col-sm-11">
-                            <div id="editor">
-
+                            <div class="bug-detail">
+                                {!!str_replace(PHP_EOL, "", trim($data->bug_detail))!!}
                             </div>
                         </div>
                     </div>
@@ -127,10 +128,6 @@
 
 <script>
     $(function(){
-        
-        $('#editor').wysiwyg();
-        $('#editor').html('{!!str_replace(PHP_EOL, "", trim($data->bug_detail))!!}');
-        $('#editor').attr('disabled', 'disabled');
         
         function initToolbarBootstrapBindings() {
             var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 

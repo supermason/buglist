@@ -5,6 +5,7 @@
  */ 
 $(document).ready(function(){
     $.masonUI.fixEleToBottom('.footer');
+    popUpImg();
 });
 
 /* 
@@ -94,4 +95,40 @@ function doSubmit(form) {
 function isEmptyContent(content) {
     content = $.trim(content).replace(/&nbsp;/ig,''); //去掉&nbsp;
     return content === '' || content === '<br>' || content === '<br/>';
+}
+
+/**
+ * 检查页面，如果有图片，就让其可以点击
+ * @returns {undefined}
+ */
+function popUpImg() {
+    var imgList = $("div>img");
+    
+    if (imgList.length > 0) {
+        imgList.each(function(){
+            // 当前图片
+            var curImg = $(this);
+            // 添加点击事件
+            curImg.click(function(){
+                var cover = $("<div class=\"cover-all\"><img src=\"" + $(this).attr("src") + "\"/></div>");
+                
+                cover.css({
+                    "height": $(document).height(),
+                    "width": $(document).width()
+                });
+                
+                cover.click(function(){
+                    $(this).remove();
+                });
+                
+                $("body").append(cover);
+            });
+            // 判断大小是否合适
+            if (curImg.width() > curImg.parent().width()) {
+                curImg.css({
+                    "width": "100%"
+                });
+            }
+        });
+    }
 }

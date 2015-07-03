@@ -169,7 +169,7 @@ class BugController extends Controller
                     $bug->solver_id = Input::get('solverId');
                 }
             }
-            else // 提交人自己修改bug
+            else if ($process == 'modify') // 提交人自己修改bug
             {
                 $bug->title = Input::get('bugTitle');
                 $bug->bug_detail = trim(Input::get('bugDetail'));
@@ -177,6 +177,11 @@ class BugController extends Controller
                 $bug->priority = Input::get('bugPriority');
                 $bug->model = Input::get('bugModel');
                 $bug->error_code = Input::get('bugErrorCode');
+            }
+            else if ($process == 'transfer') // 之前指定的解决人将bug转移给新的解决人
+            {
+                //这里就不管是不是和之前指定的是同一个人了
+                $bug->solver_id = Input::get('bugSolver');
             }
             
             

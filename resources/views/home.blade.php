@@ -5,18 +5,6 @@
 {{ App\UI\BugsHelper::updateCurrentURI() }}
 
 <div class="container-fluid">
-    @if (count($data['bugs']) == 0)
-    <div class="alert alert-info">
-        @if (App\UI\BugsHelper::isAllPage())
-        太棒了，目前一个bug也没有！当然，你可以
-        <a href="{{ URL('/create')}}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加新bug</a>
-        @else
-        当前没有需要{{App\UI\BugsHelper::getSolverName($data['query']['id'], $data['solvers'])}}解决的bug！您可以
-        <a href="{{ URL('/create')}}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加新bug</a>&nbsp;或
-        <a href="{{ URL('/all')}}" class="btn btn-danger"><span class="glyphicon glyphicon-list"></span>&nbsp;查看全部Bug</a>
-        @endif
-    </div>
-    @else
     <form class="form-inline search-form" onsubmit="return false;">
         <div class="form-group bordered-group hidden">
             <label for="bugTitle">标题：</label>
@@ -82,8 +70,6 @@
     </table>
     
     {!! $data['bugs']->render() !!}
-    
-    @endif
 </div>
 
 <script type="text/javascript">

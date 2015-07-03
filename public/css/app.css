@@ -6517,6 +6517,59 @@ textarea#editorSolution {
 .hero-unit {
   padding: 10px 60px 60px;
 }
+.none-selection {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+.bug-detail {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  height: auto;
+}
+.bug-detail:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.bug-detail::-moz-placeholder {
+  color: #999999;
+  opacity: 1;
+}
+.bug-detail:-ms-input-placeholder {
+  color: #999999;
+}
+.bug-detail::-webkit-input-placeholder {
+  color: #999999;
+}
+.bug-detail[disabled],
+.bug-detail[readonly],
+fieldset[disabled] .bug-detail {
+  cursor: not-allowed;
+  background-color: #eeeeee;
+  opacity: 1;
+}
+textarea.bug-detail {
+  height: auto;
+}
+.bug-detail img {
+  cursor: pointer;
+}
 .table > thead > tr > td.dark,
 .table > tbody > tr > td.dark,
 .table > tfoot > tr > td.dark,
@@ -6537,5 +6590,26 @@ textarea#editorSolution {
 .table-hover > tbody > tr:hover > .dark,
 .table-hover > tbody > tr.dark:hover > th {
   background-color: #737373;
+}
+/* 
+    Created on : 2015-7-3, 13:11:58
+    Author     : mason.ding
+*/
+.cover-all {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #666666;
+  z-index: 9999;
+}
+.detail-img {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0 auto;
 }
 /*# sourceMappingURL=app.css.map */
