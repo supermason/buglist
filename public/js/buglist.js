@@ -17,16 +17,15 @@ $(document).ready(function(){
 /**
  * 根据bug名称模糊查询
  * 
- * @returns {json}
+ * @returns void
  */
 function searchBugByName() {
     
-    var bugName = $.trim($("#bugTitle").val());
-    
-    if (bugName === '') {
+    var keywords = $.trim($("#keywords").val());
+    if (keywords === '') {
         $.masonUI.modalInfo("温馨提示", "请输入至少一个关键字", ModalType.WARNING);
     } else {
-        
+        window.location.href = "/fuzzysearch/" + encodeURIComponent(encodeURIComponent(keywords));
     }
 }
 

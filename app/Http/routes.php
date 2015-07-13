@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function() {
                 'id' => '[0-9]+',
                 'status' => '[0-9]+'
             ]); // 根据条件查询bug，无条件则返回全部bug
+    Route::get('/fuzzysearch/{keywords}', 'BugController@fuzzySearch');
     Route::get('/all', 'BugController@all');
     
 //    Route::get('/success', 'SuccessController@index');

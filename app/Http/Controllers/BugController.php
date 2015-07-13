@@ -31,6 +31,7 @@ class BugController extends Controller
                 'id' => Auth::user()->id,
                 'status' => 0,
             ],
+            'keywords' => '',
         ]);
     }
     
@@ -48,6 +49,7 @@ class BugController extends Controller
                 'id' => 0,
                 'status' => 0,
             ],
+            'keywords' => '',
         ]);
     }
 
@@ -281,6 +283,25 @@ class BugController extends Controller
                 'id' => $id,
                 'status' => $status,
             ],
+            'keywords' => '',
+        ]);
+    }
+    
+    /**
+     * 根据bug的标题进行模糊查询
+     * @param String $keywords
+     * @return Response
+     */
+    public function fuzzySearch($keywords)
+    {
+        return view('home')->withData([
+            'bugs' => $this->defaultOrder($this->createQueryObj()->where('title', 'like', '%' . $keywords . '%'))->paginate(20),
+            'solvers' => User::all(),
+            'query' => [
+                'id' => 0,
+                'status' => 0,
+            ],
+            'keywords' => $keywords,
         ]);
     }
     
